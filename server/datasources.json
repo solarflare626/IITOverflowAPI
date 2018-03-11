@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mysqlIDs": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "url": "mysql://root:@127.0.0.1/iitoverflow",
+    "database": "iitoverflow",
+    "password": "",
+    "name": "mysqlIDs",
+    "user": "root",
+    "connector": "mysql"
+  }
+}
