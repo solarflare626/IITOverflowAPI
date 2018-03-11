@@ -6,6 +6,14 @@
   "options": {
     "validateUpsert": true
   },
+  "foreignKeys": {
+    "categoryId": {
+      "name": "tagId",
+      "foreignKey": "categoryId",
+      "entityKey": "id",
+      "entity": "Category"
+    }
+  },
   "properties": {
     "id": {
       "type": "number",
@@ -20,18 +28,10 @@
   "relations": {
     "category": {
       "type": "belongsTo",
-      "model": "category",
+      "model": "Category",
       "foreignKey": "categoryId"
     }
   },
   "acls": [],
-  "methods": {},
-  "foreignKeys": {
-    "categoryId": {
-      "name": "tagId",
-      "foreignKey": "categoryId",
-      "entityKey": "id",
-      "entity": "category"
-    }
-  }
+  "methods": {}
 }

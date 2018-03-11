@@ -17,7 +17,16 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "tags": {
+      "type": "hasMany",
+      "model": "Tag",
+      "foreignKey": ""
+    }
+  },
+  "mixins": {
+    "Counts": true
+  },
   "acls": [],
   "methods": {}
 }

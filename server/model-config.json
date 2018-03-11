@@ -9,12 +9,14 @@
     "mixins": [
       "loopback/common/mixins",
       "loopback/server/mixins",
+      "../node_modules/loopback-counts-mixin",
       "../common/mixins",
       "./mixins"
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -44,6 +46,14 @@
     "public": true
   },
   "Tag": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Follow": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Question": {
     "dataSource": "mysqlIDs",
     "public": true
   }

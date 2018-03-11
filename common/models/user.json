@@ -29,7 +29,22 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "following": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "followerId",
+      "through": "Follow",
+      "keyThrough": "followeeId"
+    },
+    "followers": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "followeeId",
+      "through": "Follow",
+      "keyThrough": "followerId"
+    }
+  },
   "acls": [],
   "methods": {}
 }
