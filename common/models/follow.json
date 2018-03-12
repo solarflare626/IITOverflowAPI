@@ -16,6 +16,19 @@
       "type": "number",
       "id": true,
       "required": true
+    },
+    "createdAt": {
+      "type": "date",
+      "defaultFn": "now",
+      "required": true
+    },
+    "updatedAt": {
+      "type": "date",
+      "defaultFn": "now",
+      "required": true
+    },
+    "deletedAt": {
+      "type": "date"
     }
   },
   "validations": [],
