@@ -6,6 +6,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Counts": true
+  },
   "properties": {
     "id": {
       "type": "number",
@@ -23,9 +26,6 @@
       "model": "Tag",
       "foreignKey": ""
     }
-  },
-  "mixins": {
-    "Counts": true
   },
   "acls": [],
   "methods": {}

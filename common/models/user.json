@@ -1,10 +1,13 @@
 {
   "name": "user",
   "plural": "users",
-  "base": "PersistedModel",
+  "base": "User",
   "idInjection": true,
   "options": {
     "validateUpsert": true
+  },
+  "mixins": {
+    "Counts": true
   },
   "properties": {
     "id": {

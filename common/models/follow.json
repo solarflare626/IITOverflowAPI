@@ -7,16 +7,14 @@
     "validateUpsert": true
   },
   "properties": {
-    "id": {
-      "type": "number",
-      "required": true
-    },
     "followerId": {
       "type": "number",
+      "id": true,
       "required": true
     },
     "followeeId": {
       "type": "number",
+      "id": true,
       "required": true
     }
   },

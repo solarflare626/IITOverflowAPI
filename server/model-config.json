@@ -15,7 +15,7 @@
     ]
   },
   "User": {
-    "dataSource": "db",
+    "dataSource": "mysqlIDs",
     "public": false
   },
   "AccessToken": {
@@ -54,6 +54,22 @@
     "public": true
   },
   "Question": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Post": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Upvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Downvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Interest": {
     "dataSource": "mysqlIDs",
     "public": true
   }

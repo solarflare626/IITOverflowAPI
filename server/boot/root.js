@@ -14,6 +14,7 @@ module.exports = function(app) {
   var Category= app.models.Category;
   var Tag= app.models.Tag;
   var Follow= app.models.Follow;
+  var Question= app.models.Question;
 
   mysqlDs.autoupdate('user', function(err) {
       if (err) throw err;
@@ -36,5 +37,10 @@ module.exports = function(app) {
     });
 
   });
+  mysqlDs.autoupdate('Question', function(err) {
+      if (err) throw err;
+      console.log('\nAutoupdated table `Question`.');
+      // at this point the database table `Book` should have one foreign key `authorId` integrated
+    });
   
 };
