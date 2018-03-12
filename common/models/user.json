@@ -10,23 +10,11 @@
     "Counts": true
   },
   "properties": {
-    "id": {
-      "type": "number",
-      "required": true
-    },
-    "access_token": {
-      "type": "string",
-      "required": true
-    },
     "email": {
       "type": "string",
       "required": true
     },
     "displayname": {
-      "type": "string",
-      "required": false
-    },
-    "session": {
       "type": "string",
       "required": false
     }
@@ -46,8 +34,35 @@
       "foreignKey": "followeeId",
       "through": "Follow",
       "keyThrough": "followerId"
+    },
+    "accessTokens": {
+      "type": "hasMany",
+      "model": "CustomToken",
+      "foreignKey": "userId",
+      "options": {
+        "disableInclude": true
+      }
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "addToLogin"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": ""
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    }
+  ],
   "methods": {}
 }

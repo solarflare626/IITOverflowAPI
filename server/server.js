@@ -5,6 +5,10 @@ var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
 //require('loopback-counts-mixin')(app);
+app.use(loopback.token({
+  model: app.models.CustomToken
+}));
+
 app.start = function() {
   // start the web server
   return app.listen(function() {

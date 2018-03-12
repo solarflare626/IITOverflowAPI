@@ -15,7 +15,7 @@
     ]
   },
   "User": {
-    "dataSource": "mysqlIDs",
+    "dataSource": "db",
     "public": false
   },
   "AccessToken": {
@@ -72,5 +72,9 @@
   "Interest": {
     "dataSource": "mysqlIDs",
     "public": true
+  },
+  "CustomToken": {
+    "dataSource": "mysqlIDs",
+    "public": false
   }
 }

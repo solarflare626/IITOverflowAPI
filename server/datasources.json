@@ -1,13 +1,7 @@
 {
   "db": {
     "name": "db",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "url": "mysql://iitoverflow:@127.0.0.1/iitoverflow",
-    "database": "iitoverflow",
-    "password": "",
-    "user": "iitoverflow",
-    "connector": "mysql"
+    "connector": "memory"
   },
   "mysqlIDs": {
     "host": "127.0.0.1",

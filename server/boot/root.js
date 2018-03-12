@@ -10,37 +10,24 @@ module.exports = function(server) {
 };
 module.exports = function(app) {
 	var mysqlDs = app.dataSources.mysqlIDs;
-  var User= app.models.user;
+  var user= app.models.user;
+  var CustomToken= app.models.CustomToken;
   var Category= app.models.Category;
   var Tag= app.models.Tag;
   var Follow= app.models.Follow;
   var Question= app.models.Question;
-
-  mysqlDs.autoupdate('user', function(err) {
-      if (err) throw err;
-      console.log('\nAutoupdated table `user`.');
-      // at this point the database table `Book` should have one foreign key `authorId` integrated
-      mysqlDs.autoupdate('Follow', function(err) {
-      if (err) throw err;
-      console.log('\nAutoupdated table `Follow`.');
-      // at this point the database table `Book` should have one foreign key `authorId` integrated
-    });
+  var lbTables = ['user', 'Follow', 'Category', 'Tag','Question','CustomToken'];
+  mysqlDs.autoupdate(lbTables, function(er) {
+    if (er) throw er;
+    
+      
+      for (var table in lbTables) {
+        console.log('\nAutoupdated table '+ lbTables[table]+ '.');
+      }
+    //mysqlDs.disconnect();
   });
-  mysqlDs.autoupdate('Category', function(err) {
-      if (err) throw err;
-      console.log('\nAutoupdated table `Category`.');
-      // at this point the database table `Book` should have one foreign key `authorId` integrated
-      mysqlDs.autoupdate('Tag', function(err) {
-      if (err) throw err;
-      console.log('\nAutoupdated table `Tag`.');
-      // at this point the database table `Book` should have one foreign key `authorId` integrated
-    });
 
-  });
-  mysqlDs.autoupdate('Question', function(err) {
-      if (err) throw err;
-      console.log('\nAutoupdated table `Question`.');
-      // at this point the database table `Book` should have one foreign key `authorId` integrated
-    });
+  delete app.models.user.validations.password;
+  delete app.models.user.validations.username;
   
 };
