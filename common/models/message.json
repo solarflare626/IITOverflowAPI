@@ -1,6 +1,6 @@
 {
-  "name": "Upvote",
-  "plural": "Upvotes",
+  "name": "Message",
+  "plural": "Messages",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

@@ -20,13 +20,13 @@
     },
     "createdAt": {
       "type": "date",
-      "defaultFn": "now",
-      "required": true
+      "required": true,
+      "defaultFn": "now"
     },
     "updatedAt": {
       "type": "date",
-      "defaultFn": "now",
-      "required": true
+      "required": true,
+      "defaultFn": "now"
     },
     "deletedAt": {
       "type": "date"
@@ -47,6 +47,56 @@
       "foreignKey": "followeeId",
       "through": "Follow",
       "keyThrough": "followerId"
+    },
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": ""
+    },
+    "questionsupvoted": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId",
+      "through": "QuestionUpvote",
+      "keyThrough": "questionId"
+    },
+    "questionsfollowed": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId",
+      "through": "QuestionFollow",
+      "keyThrough": "questionId"
+    },
+    "questionsdownvoted": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId",
+      "through": "QuestionDownvote",
+      "keyThrough": "questionId"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "userId"
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "userId"
+    },
+    "expertees": {
+      "type": "hasMany",
+      "model": "Tag",
+      "foreignKey": "userId",
+      "through": "Expert",
+      "keyThrough": "tagId"
+    },
+    "interests": {
+      "type": "hasMany",
+      "model": "Category",
+      "foreignKey": "userId",
+      "through": "Interest",
+      "keyThrough": "categoryId"
     },
     "accessTokens": {
       "type": "hasMany",

@@ -1,6 +1,6 @@
 {
-  "name": "Follow",
-  "plural": "Follows",
+  "name": "AnswerUpvote",
+  "plural": "AnswerUpvotes",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -22,18 +22,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "followee": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "followeeId"
-    },
-    "follower": {
-      "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "followerId"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

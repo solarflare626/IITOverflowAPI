@@ -20,13 +20,13 @@
     },
     "createdAt": {
       "type": "date",
-      "defaultFn": "now",
-      "required": true
+      "required": true,
+      "defaultFn": "now"
     },
     "updatedAt": {
       "type": "date",
-      "defaultFn": "now",
-      "required": true
+      "required": true,
+      "defaultFn": "now"
     },
     "deletedAt": {
       "type": "date"
@@ -38,6 +38,13 @@
       "type": "hasMany",
       "model": "Tag",
       "foreignKey": ""
+    },
+    "interested": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "categoryId",
+      "through": "Interest",
+      "keyThrough": "userId"
     }
   },
   "acls": [],

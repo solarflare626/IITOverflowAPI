@@ -16,7 +16,22 @@ module.exports = function(app) {
   var Tag= app.models.Tag;
   var Follow= app.models.Follow;
   var Question= app.models.Question;
-  var lbTables = ['user', 'Follow', 'Category', 'Tag','Question','CustomToken'];
+  var Answer= app.models.Answer;
+  var Comment =app.models.Comment;
+
+  var AnswerDownvote =app.models.AnswerDownvote;
+  var AnswerUpvote =app.models.AnswerUpvote;
+  var Conversation=app.models.Conversation;
+  var Expert =app.models.Expert;
+  var Interest =app.models.Interest;
+  var Message=app.models.Message;
+  var QuestionDownvote =app.models.QuestionDownvote;
+  var QuestionUpvote =app.models.QuestionUpvote;
+  var QuestionFollow=app.models.QuestionFollow;
+  var QuestionTag=app.models.QuestionTag;
+
+
+  var lbTables = ['user', 'Follow', 'Category', 'Tag','Question','CustomToken','Answer','Comment','AnswerDownvote','AnswerUpvote','Conversation','Expert','Interest','Message','QuestionDownvote','QuestionUpvote','QuestionFollow','QuestionTag'];
   mysqlDs.autoupdate(lbTables, function(er) {
     if (er) throw er;
     

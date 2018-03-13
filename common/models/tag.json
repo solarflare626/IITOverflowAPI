@@ -25,13 +25,13 @@
     },
     "createdAt": {
       "type": "date",
-      "defaultFn": "now",
-      "required": true
+      "required": true,
+      "defaultFn": "now"
     },
     "updatedAt": {
       "type": "date",
-      "defaultFn": "now",
-      "required": true
+      "required": true,
+      "defaultFn": "now"
     },
     "deletedAt": {
       "type": "date"
@@ -43,6 +43,20 @@
       "type": "belongsTo",
       "model": "Category",
       "foreignKey": "categoryId"
+    },
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "tagId",
+      "through": "QuestionTag",
+      "keyThrough": "questionId"
+    },
+    "experts": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "tagId",
+      "through": "Expert",
+      "keyThrough": "userId"
     }
   },
   "acls": [],

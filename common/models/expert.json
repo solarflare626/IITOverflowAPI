@@ -1,13 +1,13 @@
 {
-  "name": "Follow",
-  "plural": "Follows",
+  "name": "Expert",
+  "plural": "Experts",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "createdAt": {
+  "createdAt": {
       "type": "date",
       "required": true,
       "defaultFn": "now"
@@ -23,15 +23,15 @@
   },
   "validations": [],
   "relations": {
-    "followee": {
+    "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "followeeId"
+      "foreignKey": "userId"
     },
-    "follower": {
+    "tag": {
       "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "followerId"
+      "model": "Tag",
+      "foreignKey": "tagId"
     }
   },
   "acls": [],

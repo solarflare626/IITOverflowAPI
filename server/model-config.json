@@ -57,18 +57,6 @@
     "dataSource": "mysqlIDs",
     "public": true
   },
-  "Post": {
-    "dataSource": "mysqlIDs",
-    "public": true
-  },
-  "Upvote": {
-    "dataSource": "mysqlIDs",
-    "public": true
-  },
-  "Downvote": {
-    "dataSource": "mysqlIDs",
-    "public": true
-  },
   "Interest": {
     "dataSource": "mysqlIDs",
     "public": true
@@ -76,5 +64,53 @@
   "CustomToken": {
     "dataSource": "mysqlIDs",
     "public": false
+  },
+  "Conversation": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Message": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Answer": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionUpvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionDownvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionFollow": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "AnswerUpvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "AnswerDownvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Comment": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Expert": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionTag": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionAttachment": {
+    "dataSource": "mysqlIDs",
+    "public": true
   }
 }

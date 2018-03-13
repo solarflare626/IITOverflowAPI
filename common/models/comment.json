@@ -1,12 +1,20 @@
 {
-  "name": "Follow",
-  "plural": "Follows",
+  "name": "Comment",
+  "plural": "Comments",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
+    "id": {
+      "type": "number",
+      "required": true
+    },
+    "comment": {
+      "type": "text",
+      "required": true
+    },
     "createdAt": {
       "type": "date",
       "required": true,
@@ -23,15 +31,15 @@
   },
   "validations": [],
   "relations": {
-    "followee": {
+    "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "followeeId"
+      "foreignKey": "userId"
     },
-    "follower": {
+    "answer": {
       "type": "belongsTo",
-      "model": "user",
-      "foreignKey": "followerId"
+      "model": "Answer",
+      "foreignKey": "answerId"
     }
   },
   "acls": [],

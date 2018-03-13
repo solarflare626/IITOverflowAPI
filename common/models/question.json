@@ -11,11 +11,64 @@
       "type": "number"
     },
     "question": {
-      "type": "string"
+      "type": "text",
+      "required": true
+    },
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "deletedAt": {
+      "type": "date"
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    },
+    "upvotes": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "questionId",
+      "through": "QuestionUpvote",
+      "keyThrough": "userId"
+    },
+    "downvotes": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "questionId",
+      "through": "QuestionDownvote",
+      "keyThrough": "userId"
+    },
+    "follows": {
+      "type": "hasMany",
+      "model": "User",
+      "foreignKey": "questionId",
+      "through": "QuestionFollow",
+      "keyThrough": "userId"
+    },
+    "tags": {
+      "type": "hasMany",
+      "model": "Tag",
+      "foreignKey": "questionId",
+      "through": "QuestionTag",
+      "keyThrough": "tagId"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "questionId"
+    }
+  },
   "acls": [],
   "methods": {}
 }
