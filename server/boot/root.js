@@ -29,9 +29,10 @@ module.exports = function(app) {
   var QuestionUpvote =app.models.QuestionUpvote;
   var QuestionFollow=app.models.QuestionFollow;
   var QuestionTag=app.models.QuestionTag;
+  var Notification=app.models.Notification;
 
 
-  var lbTables = ['user', 'Follow', 'Category', 'Tag','Question','CustomToken','Answer','Comment','AnswerDownvote','AnswerUpvote','Conversation','Expert','Interest','Message','QuestionDownvote','QuestionUpvote','QuestionFollow','QuestionTag'];
+  var lbTables = ['Notification','user', 'Follow', 'Category', 'Tag','Question','CustomToken','Answer','Comment','AnswerDownvote','AnswerUpvote','Conversation','Expert','Interest','Message','QuestionDownvote','QuestionUpvote','QuestionFollow','QuestionTag'];
   mysqlDs.autoupdate(lbTables, function(er) {
     if (er) throw er;
     

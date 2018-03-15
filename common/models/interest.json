@@ -23,7 +23,7 @@
   },
   "validations": [],
   "relations": {
-  "user": {
+    "user": {
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "userId"

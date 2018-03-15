@@ -7,7 +7,7 @@
     "validateUpsert": true
   },
   "properties": {
-  "createdAt": {
+    "createdAt": {
       "type": "date",
       "required": true,
       "defaultFn": "now"

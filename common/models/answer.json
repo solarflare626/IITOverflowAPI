@@ -15,7 +15,7 @@
       "type": "text",
       "required": true
     },
-  "createdAt": {
+    "createdAt": {
       "type": "date",
       "required": true,
       "defaultFn": "now"
@@ -41,7 +41,6 @@
       "model": "Question",
       "foreignKey": "questionId"
     }
-
   },
   "acls": [],
   "methods": {}

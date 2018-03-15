@@ -112,5 +112,9 @@
   "QuestionAttachment": {
     "dataSource": "mysqlIDs",
     "public": true
+  },
+  "Notification": {
+    "dataSource": "mysqlIDs",
+    "public": true
   }
 }
