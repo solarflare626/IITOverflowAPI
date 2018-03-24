@@ -6,6 +6,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Counts": true
+  },
   "properties": {
     "id": {
       "type": "number"
@@ -33,7 +36,7 @@
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": "userId"
+      "foreignKey": ""
     },
     "upvotes": {
       "type": "hasMany",

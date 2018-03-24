@@ -6,6 +6,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Counts": true
+  },
   "properties": {
     "id": {
       "type": "number",
