@@ -43,6 +43,11 @@
       "type": "belongsTo",
       "model": "Question",
       "foreignKey": "questionId"
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "answerId"
     }
   },
   "acls": [],
