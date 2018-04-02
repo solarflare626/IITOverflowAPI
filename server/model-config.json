@@ -116,5 +116,9 @@
   "Notification": {
     "dataSource": "mysqlIDs",
     "public": true
+  },
+  "container": {
+    "dataSource": "storage",
+    "public": true
   }
 }

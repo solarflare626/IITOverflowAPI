@@ -12,5 +12,12 @@
     "name": "mysqlIDs",
     "user": "iitoverflow",
     "connector": "mysql"
+  },
+  "storage": {
+    "name": "storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "tmp/storage",
+    "nameConflict": "makeUnique"
   }
 }

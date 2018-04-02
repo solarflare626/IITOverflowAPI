@@ -2,14 +2,19 @@
   "name": "user",
   "plural": "users",
   "base": "User",
-  "idInjection":  true,
+  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "mixins": {
     "Counts": true
   },
-  "excludeBaseProperties" : ["username","realm" ,"emailVerified" ,  "verificationToken"],
+  "excludeBaseProperties": [
+    "username",
+    "realm",
+    "emailVerified",
+    "verificationToken"
+  ],
   "properties": {
     "email": {
       "type": "string",
@@ -82,7 +87,7 @@
     "answers": {
       "type": "hasMany",
       "model": "Answer",
-      "foreignKey": "userId"  
+      "foreignKey": "userId"
     },
     "comments": {
       "type": "hasMany",
