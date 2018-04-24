@@ -12,7 +12,8 @@
     //"password": "",
     "name": "mysqlIDs",
     "user": "iitoverflow",
-    "connector": "mysql"
+    //"connector": "mysql"
+    "connector": "postgresql"
   },
   "storage": {
     "name": "storage",
