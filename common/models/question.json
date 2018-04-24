@@ -38,6 +38,10 @@
       "model": "user",
       "foreignKey": ""
     },
+    "category":{
+      "type": "belongsTo",
+      "model": "Category"
+    },
     "upvotes": {
       "type": "hasMany",
       "model": "user",
