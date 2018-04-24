@@ -4,13 +4,13 @@
     "connector": "memory"
   },
   "mysqlIDs": {
-    "host": "ec2-107-20-249-68.compute-1.amazonaws.com",
+    "host": "ec2-23-23-247-222.compute-1.amazonaws.com",
     "port": 5432,
-    "url": "postgres://hkupzvrdiywysq:cd8929282935de148dd95d19f3e085b6713bf934ea0594c514f1f3210675a59d@ec2-107-20-249-68.compute-1.amazonaws.com:5432/da4iroidp9uln?ssl=true",
-    "database": "da4iroidp9uln",
-    "password": "cd8929282935de148dd95d19f3e085b6713bf934ea0594c514f1f3210675a59d",
+    "url": "postgres://yvccjmxnavlcst:47c64ca6c0dc17b7740ae2502b648cd71d074e5527f366da3ffd7ea7f1973bc7@ec2-23-23-247-222.compute-1.amazonaws.com:5432/d1h4v5i6utk7ql?ssl=true",
+    "database": "d1h4v5i6utk7ql",
+    "password": "47c64ca6c0dc17b7740ae2502b648cd71d074e5527f366da3ffd7ea7f1973bc7",
     "name": "mysqlIDs",
-    "user": "hkupzvrdiywysq",
+    "user": "yvccjmxnavlcst",
     "connector": "postgresql"
   },
   "storage": {
