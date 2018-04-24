@@ -4,15 +4,13 @@
     "connector": "memory"
   },
   "mysqlIDs": {
-    "host": "127.0.0.1",
-    "port": 3306,
-    //"url": "mysql://iitoverflow:@127.0.0.1/iitoverflow",
-    "url": "postgres://hkupzvrdiywysq:cd8929282935de148dd95d19f3e085b6713bf934ea0594c514f1f3210675a59d@ec2-107-20-249-68.compute-1.amazonaws.com:5432/da4iroidp9uln",
-    //"database": "iitoverflow",
-    //"password": "",
+    "host": "ec2-107-20-249-68.compute-1.amazonaws.com",
+    "port": 5432,
+    "url": "postgres://hkupzvrdiywysq:cd8929282935de148dd95d19f3e085b6713bf934ea0594c514f1f3210675a59d@ec2-107-20-249-68.compute-1.amazonaws.com:5432/da4iroidp9uln?ssl=true",
+    "database": "da4iroidp9uln",
+    "password": "cd8929282935de148dd95d19f3e085b6713bf934ea0594c514f1f3210675a59d",
     "name": "mysqlIDs",
-    "user": "iitoverflow",
-    //"connector": "mysql"
+    "user": "hkupzvrdiywysq",
     "connector": "postgresql"
   },
   "storage": {
