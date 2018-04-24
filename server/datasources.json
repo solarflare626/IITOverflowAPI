@@ -6,9 +6,10 @@
   "mysqlIDs": {
     "host": "127.0.0.1",
     "port": 3306,
-    "url": "mysql://iitoverflow:@127.0.0.1/iitoverflow",
-    "database": "iitoverflow",
-    "password": "",
+    //"url": "mysql://iitoverflow:@127.0.0.1/iitoverflow",
+    "url": "postgres://hkupzvrdiywysq:cd8929282935de148dd95d19f3e085b6713bf934ea0594c514f1f3210675a59d@ec2-107-20-249-68.compute-1.amazonaws.com:5432/da4iroidp9uln",
+    //"database": "iitoverflow",
+    //"password": "",
     "name": "mysqlIDs",
     "user": "iitoverflow",
     "connector": "mysql"
