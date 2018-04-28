@@ -19,5 +19,48 @@ module.exports = function(Question) {
     next();
   };
 
+  Question.uploadFile= function(ctx,options, id, cb) {
+    
+    if(!options) options = {};
+    ctx.req.params.container = 'profile';    
+
+ 
+    cb([options]);
+
+
+    return "Error";
+
+
+  }
+
+  Question.remoteMethod(
+    'uploadFile', {
+        http: {
+            path: '/:id/uploadFile',
+            verb: 'post'
+        },
+        accepts: [{
+            arg: 'ctx',
+            type: 'object',
+            http: {
+                source: 'context'
+            }
+        }, {
+            arg: 'options',
+            type: 'object',
+            http: {
+                source: 'query'
+            }
+        }, {
+            arg: 'id',
+            type: 'string'
+        }],
+        returns: {
+            arg: 'status',
+            type: 'string'
+        }
+    }
+);
+
   
 };

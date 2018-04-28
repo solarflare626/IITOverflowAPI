@@ -16,6 +16,9 @@
     "question": {
       "type": "text",
       "required": true
+    },"questiondesc": {
+      "type": "text",
+      "required": true
     },
     "createdAt": {
       "type": "date",
