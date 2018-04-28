@@ -48,6 +48,11 @@
       "type": "hasMany",
       "model": "Comment",
       "foreignKey": "answerId"
+    },
+    "attachments": {
+      "type": "hasMany",
+      "model": "Attachment",
+      "polymorphic": "file"
     }
   },
   "acls": [],

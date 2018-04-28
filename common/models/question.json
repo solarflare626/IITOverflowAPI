@@ -42,7 +42,7 @@
       "model": "user",
       "foreignKey": ""
     },
-    "category":{
+    "category": {
       "type": "belongsTo",
       "model": "Category"
     },
@@ -78,6 +78,14 @@
       "type": "hasMany",
       "model": "Answer",
       "foreignKey": "questionId"
+    },
+    "attachments": {
+      "type": "hasMany",
+      "model": "Attachment",
+      "polymorphic":{
+        "foreignKey": "fileId",
+        "discriminator": "fileType"
+       } 
     }
   },
   "acls": [],

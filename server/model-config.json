@@ -120,5 +120,9 @@
   "container": {
     "dataSource": "storage",
     "public": true
+  },
+  "Attachment": {
+    "dataSource": "mysqlIDs",
+    "public": true
   }
 }

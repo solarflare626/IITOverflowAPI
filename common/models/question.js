@@ -10,6 +10,8 @@ var minioClient = new Minio.Client({
   secretKey: 'T8/j4VMAAm6vpJSfhwN9YK18vHLnQG3XiAMXyJcE'
 });
 
+var hash = require('object-hash');
+
 
 /**
  * Helper method which takes the request object and returns a promise with a file.
@@ -22,14 +24,15 @@ const getFileFromRequest = (req) => new Promise((resolve, reject) => {
     else{
       if(typeof files['file'] == "undefined") reject('File was not found in form data.');
       else{
-        const file = files['file'][0]; // get the file from the returned files object
-        if (!file) Promise.reject('File was not found in form data.');
-        else resolve(files['file']);
+        /*const file = files['file'][0]; // get the file from the returned files object
+        if (!file) Promise.reject('File was not found in form data.');*/
+         resolve(files['file']);
       }
       
     }
   });
 });
+
 
 module.exports = function(Question) {
 	Question.beforeCreate = function (next, model) {
@@ -45,35 +48,42 @@ module.exports = function(Question) {
   Question.uploadFile= async(req, id, cb) =>{
     
     //return req.files;
-    const files = await getFileFromRequest(req);
-
-    files.forEach(file => {
-      console.log(file);
-    });
-
-  
-
     
-    return files;
-   // cb(req.files[0].file.name);
-   /* req.files.file.forEach(element => {
-      console.log(JSON.stringify(element));
-    });
-
-    cb(JSON.stringify(req.files.file));*/
-   /*minioClient.presignedPutObject('files', req.query.name, (err, url) => {
-      if (err) cb( err);
+    const files = await getFileFromRequest(req);
+    var uploaded = [];
+    
+    function asyncFunction (file,id, callback) {
+      var url = id+"_"+Date.now()+"_"+hash(file)+"_"+ file.originalFilename;  
+        
+      minioClient.fPutObject('files',url ,file.path, 'application/octet-stream', function(err, etag) {
+          
+          if(err){
+            callback(err);
+          }else{
+          Question.app.models.Attachment.create({
+              url:url,
+              fileType: "Question",
+              fileId:id
+          }).then( function(attachment) {
+            uploaded.push(attachment);
+            callback();
+          });
+          }
+      });
+        
+        
       
+    }
+    let uploads = files.map((file)=>{
+      return new Promise((resolve) => {
+        asyncFunction(file,id, resolve);
+      });
+    })
 
-      cb({"status": url});
-  });*/
-
- 
-    //cb([req,res]);
-      //cb("gaga");
-     //ssss cb(req.);
-    //return "Error";
-
+    return await Promise.all(uploads).then(() => {
+      //console.log(uploaded);
+       return uploaded;
+    });
 
   }
 
@@ -87,7 +97,7 @@ module.exports = function(Question) {
         {arg: 'id', type: 'string'}],
         returns: {
             root : true,
-            type: 'object'
+            type: 'array'
         }
     }
 );
