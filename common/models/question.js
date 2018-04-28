@@ -19,13 +19,12 @@ module.exports = function(Question) {
     next();
   };
 
-  Question.uploadFile= function(ctx,options, id, cb) {
+  Question.uploadFile= function(req, res, id, cb) {
     
-    if(!options) options = {};
-    ctx.req.params.container = 'profile';    
+    
 
  
-    cb([options]);
+    cb([req,res]);
 
 
     return "Error";
@@ -39,22 +38,9 @@ module.exports = function(Question) {
             path: '/:id/uploadFile',
             verb: 'post'
         },
-        accepts: [{
-            arg: 'ctx',
-            type: 'object',
-            http: {
-                source: 'context'
-            }
-        }, {
-            arg: 'options',
-            type: 'object',
-            http: {
-                source: 'query'
-            }
-        }, {
-            arg: 'id',
-            type: 'string'
-        }],
+        accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}},
+        {arg: 'res', type: 'object', 'http': {source: 'res'}},
+        {arg: 'id', type: 'string'}],
         returns: {
             arg: 'status',
             type: 'string'
