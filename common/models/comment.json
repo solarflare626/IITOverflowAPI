@@ -40,6 +40,14 @@
       "type": "belongsTo",
       "model": "Answer",
       "foreignKey": "answerId"
+    },
+    "attachments": {
+      "type": "hasMany",
+      "model": "Attachment",
+      "polymorphic":{
+        "foreignKey": "fileId",
+        "discriminator": "fileType"
+       } 
     }
   },
   "acls": [],

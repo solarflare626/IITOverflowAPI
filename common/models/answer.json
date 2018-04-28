@@ -52,7 +52,10 @@
     "attachments": {
       "type": "hasMany",
       "model": "Attachment",
-      "polymorphic": "file"
+      "polymorphic":{
+        "foreignKey": "fileId",
+        "discriminator": "fileType"
+       } 
     }
   },
   "acls": [],

@@ -83,7 +83,7 @@ module.exports = function(User) {
         var uploaded;
         
         function asyncFunction (file,id, callback) {
-          var url = id+"_"+Date.now()+"_"+hash(file)+"_"+ file.originalFilename;  
+          var url = Date.now()+"_"+id+"_"+hash(file)+"_"+ file.originalFilename;  
             
           minioClient.fPutObject('profile',url ,file.path, 'application/octet-stream', function(err, etag) {
               
