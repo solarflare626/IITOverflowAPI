@@ -44,10 +44,10 @@ module.exports = function(User) {
     User.uploadProfilePic = function(ctx,options, id, cb) {
     	if(!options) options = {};
         	ctx.req.params.container = 'profile';
-       	User.app.models.container.createContainer({"name":"profile"}, function(err1, fileObj2) {
+       /*	User.app.models.container.createContainer({"name":"profile"}, function(err1, fileObj2) {
        			console.log("asdfs");
 
-       	});
+       	});*/
         User.app.models.container.upload(ctx.req,ctx.result,options, function(err, fileObj) {
 
             if (err) {

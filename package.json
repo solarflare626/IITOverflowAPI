@@ -22,6 +22,7 @@
     "loopback-connector-mysql": "^2.4.1",
     "loopback-connector-postgresql": "^3.3.0",
     "loopback-counts-mixin": "^1.0.1",
+    "minio": "^5.0.0",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0"
   },

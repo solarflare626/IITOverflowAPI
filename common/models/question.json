@@ -58,7 +58,7 @@
     },
     "follows": {
       "type": "hasMany",
-      "model": "User",
+      "model": "user",
       "foreignKey": "questionId",
       "through": "QuestionFollow",
       "keyThrough": "userId"
