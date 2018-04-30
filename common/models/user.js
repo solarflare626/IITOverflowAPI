@@ -15,7 +15,8 @@ async function verify(myIdToken) {
             '976545483152-sqe7ionbfs9t8jnq8a6mrnvclsdsg222.apps.googleusercontent.com',
             '976545483152-3u1fctn90tf0qvjevud1hkfu3jdneog0.apps.googleusercontent.com',
             '976545483152-fhtdk4qhsb5akkuakilskicqkpiap77i.apps.googleusercontent.com',
-            '976545483152-vsg906t0vnk04b5gra3861c98jqi7hcq.apps.googleusercontent.com'
+            '976545483152-vsg906t0vnk04b5gra3861c98jqi7hcq.apps.googleusercontent.com',
+            '976545483152-dfnc1ma10h0umdfrrchdkqgmsmat2j8j.apps.googleusercontent.com'
         ], // Specify the CLIENT_ID of the app that accesses the backend
         // Or, if multiple clients access the backend:
         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
