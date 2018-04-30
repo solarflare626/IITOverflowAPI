@@ -10,5 +10,5 @@ module.exports = function(Answerdownvote) {
     model.updatedAt = Date.now();
     next();
   };
-
+ 
 };
