@@ -40,6 +40,27 @@ module.exports = function(Question) {
     next();
   };
 
+  Question.observe('before delete', function(ctx, next) {
+    console.log('Going to delete %s matching %j',
+      ctx.Model.pluralModelName,
+      ctx.where);
+      Question.find({ where:ctx.where }, function(err, models) {
+        console.log('found some questions:', models);
+        models.forEach(model => {
+          model.answers.destroyAll({}, function(err, info) {
+            if (err) console.log("Error",err);
+            console.log("deleted answers",info);
+          });
+          
+        });
+        
+        // loop through models and delete other things maybe?
+      });
+    next();
+  });
+  
+
+
  	Question.beforeUpdate = function (next, model) {
     model.updatedAt = Date.now();
     next();
