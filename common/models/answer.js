@@ -37,11 +37,11 @@ module.exports = function(Answer) {
     next();
   };
 
-  Question.observe('before delete', function(ctx, next) {
+  Answer.observe('before delete', function(ctx, next) {
     console.log('Going to delete %s matching %j',
       ctx.Model.pluralModelName,
       ctx.where);
-      Question.find({ where:ctx.where }, function(err, models) {
+      Answer.find({ where:ctx.where }, function(err, models) {
         console.log('found some answers:', models);
         models.forEach(model => {
           model.comments.destroyAll({}, function(err, info) {

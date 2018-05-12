@@ -17,13 +17,15 @@ async function verify(myIdToken) {
             '976545483152-fhtdk4qhsb5akkuakilskicqkpiap77i.apps.googleusercontent.com',
             '976545483152-vsg906t0vnk04b5gra3861c98jqi7hcq.apps.googleusercontent.com',
             '976545483152-dfnc1ma10h0umdfrrchdkqgmsmat2j8j.apps.googleusercontent.com'
-        ], // Specify the CLIENT_ID of the app that accesses the backend
+        ],
+         // Specify the CLIENT_ID of the app that accesses the backend
         // Or, if multiple clients access the backend:
         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
 
     });
     const payload = ticket.getPayload();
     const userid = payload['sub'];
+    
 
     return payload;
     //return callback(userid);
@@ -202,11 +204,17 @@ module.exports = function(User) {
 
 
 
-        console.log("IDTOKEN: ", credentials.idToken);
+       // console.log("IDTOKEN: ", credentials.idToken);
 
         verify(credentials.idToken).then(data => {
+            if(!data.hd || data.hd != "g.msuiit.edu.ph"){
+                var error = new Error("Must use msuiit google suite domain");
+                error.status = 403;
+                return callback(error);
 
-            console.log("Data", data);
+            }
+
+           // console.log("Data", data);
 
             var account = {
                 "email": data.email,
@@ -224,7 +232,7 @@ module.exports = function(User) {
 
 
 
-                console.log("exists");
+                //console.log("exists");
                 return User.login(account, include, function(loginErr, loginToken) {
                     if (loginErr)
                         return callback(loginErr);
