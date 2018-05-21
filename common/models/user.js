@@ -71,15 +71,15 @@ const getFileFromRequest = (req) => new Promise((resolve, reject) => {
 module.exports = function(User) {
 
 
-    User.beforeCreate = function(next, model) {
-        model.createdAt = Date.now();
+    User.observe('before save', function(ctx, next) {
+        if (ctx.instance) {
+          ctx.instance.createdAt = new Date();
+        } else {
+          ctx.data.updatedAt = new Date();
+        }
+          
         next();
-    };
-
-    User.beforeUpdate = function(next, model) {
-        model.updatedAt = Date.now();
-        next();
-    };
+      });
     User.updateProfile= async(req, id, cb) =>{
         
         const files = await getFileFromRequest(req);
@@ -171,6 +171,7 @@ module.exports = function(User) {
         return "callback('findErr')";
 
     }
+    
     User.remoteMethod(
         'uploadProfilePic', {
             http: {
@@ -307,4 +308,73 @@ module.exports = function(User) {
             'root': true
         }]
     });
+
+
+
+    User.followable = function(ctx, id, cb) {
+        User.findById(id,{
+            include: {
+              relation: 'interests'
+            }
+          }, function(findErr, userData) {
+            if (findErr)
+                return cb(findErr);
+
+
+
+            // Here you can do something with the user info, or the token, or both
+
+            // Return the access token
+            
+             var interests =[] ;
+
+             userData.toJSON().interests.forEach(element => {
+                interests.push(element.id);
+            });
+            
+            
+
+             var q = "select user.displayname,user.id, user.picture from interest join user on interest.userId=user.id  where user.id!="+id+" and interest.categoryId in ("+interests+") group by user.id";
+             User.dataSource.connector.query(q, interests,  function (err, users) {
+
+                if (err) console.error(err);
+    
+                return cb(err, users);
+    
+            });
+
+             
+
+        });
+
+
+        
+        
+        
+
+       
+    }
+    
+    User.remoteMethod(
+        'followable', {
+            http: {
+                path: '/:id/followable',
+                verb: 'get'
+            },
+            accepts: [{
+                arg: 'ctx',
+                type: 'object',
+                http: {
+                    source: 'context'
+                }
+            }, {
+                arg: 'id',
+                type: 'string'
+            }],
+            returns: { 
+                root : true,
+                type: 'Array'
+            }
+        }
+    );
 };

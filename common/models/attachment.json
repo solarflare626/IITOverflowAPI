@@ -7,7 +7,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "url":{
+    "url": {
       "type": "string",
       "required": false
     },

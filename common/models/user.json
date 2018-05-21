@@ -70,6 +70,13 @@
       "through": "QuestionUpvote",
       "keyThrough": "questionId"
     },
+    "conversations": {
+      "type": "hasMany",
+      "model": "Conversation",
+      "foreignKey": "userId",
+      "through": "Participant",
+      "keyThrough": "conversationId"
+    },
     "questionsfollowed": {
       "type": "hasMany",
       "model": "Question",

@@ -35,11 +35,38 @@ const getFileFromRequest = (req) => new Promise((resolve, reject) => {
 
 
 module.exports = function(Question) {
-	Question.beforeCreate = function (next, model) {
-    model.createdAt = Date.now();
-    next();
-  };
 
+
+  Question.observe('after save', function(ctx, next) {
+    var q = {};
+    q.question = ctx.instance;
+     Question.app.models.user.findById(q.question.userId, function(findErr, userData) {
+      if (findErr)
+        return null;
+
+      // Here you can do something with the user info, or the token, or both
+
+
+      //console.log(userData);
+      // Return the access token
+      q.user = userData;
+      Question.app.io.of('/notification').emit('newQuestion',q);
+      return userData;
+     
+    });
+      
+    next();
+  });
+
+  Question.observe('before save', function(ctx, next) {
+    if (ctx.instance) {
+      ctx.instance.createdAt = new Date();
+    } else {
+      ctx.data.updatedAt = new Date();
+    }
+      
+    next();
+  });
   Question.observe('before delete', function(ctx, next) {
     console.log('Going to delete %s matching %j',
       ctx.Model.pluralModelName,
@@ -61,10 +88,7 @@ module.exports = function(Question) {
   
 
 
- 	Question.beforeUpdate = function (next, model) {
-    model.updatedAt = Date.now();
-    next();
-  };
+
 
   Question.uploadFile= async(req, id, cb) =>{
     

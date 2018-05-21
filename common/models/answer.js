@@ -32,10 +32,42 @@ const getFileFromRequest = (req) => new Promise((resolve, reject) => {
   });
 });
 module.exports = function(Answer) {
-	Answer.beforeCreate = function (next, model) {
-    model.createdAt = Date.now();
+	
+
+  Answer.observe('after save', function(ctx, next) {
+    
+    //console.log(ctx.instance.user);
+    var a = {};
+    a.answer = ctx.instance;
+     Answer.app.models.user.findById(a.answer.userId, function(findErr, userData) {
+      if (findErr)
+        return null;
+
+      a.user = userData;
+        Answer.app.models.Question.findById(a.answer.questionId, function(findErr, questionData) {
+          if (findErr)
+            return null;
+          a.question = questionData;
+          Answer.app.io.of('/notification').emit('newAnswer',a);
+          return userData;
+        
+        });
+      return userData;
+     
+    });
+      
     next();
-  };
+  });
+
+  Answer.observe('before save', function(ctx, next) {
+    if (ctx.instance) {
+      ctx.instance.createdAt = new Date();
+    } else {
+      ctx.data.updatedAt = new Date();
+    }
+      
+    next();
+  });
 
   Answer.observe('before delete', function(ctx, next) {
     console.log('Going to delete %s matching %j',
@@ -55,10 +87,6 @@ module.exports = function(Answer) {
       });
     next();
   });
-  Answer.beforeUpdate = function (next, model) {
-    model.updatedAt = Date.now();
-    next();
-  };
 
   Answer.uploadFile= async(req, id, cb) =>{
     

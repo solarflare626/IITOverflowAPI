@@ -1,14 +1,14 @@
 'use strict';
 
 module.exports = function(Questiondownvotes) {
-	Questiondownvotes.beforeCreate = function (next, model) {
-    model.createdAt = Date.now();
+	Questiondownvotes.observe('before save', function(ctx, next) {
+    if (ctx.instance) {
+      ctx.instance.createdAt = new Date();
+    } else {
+      ctx.data.updatedAt = new Date();
+    }
+      
     next();
-  };
-
-  Questiondownvotes.beforeUpdate = function (next, model) {
-    model.updatedAt = Date.now();
-    next();
-  };
+  });
 
 };

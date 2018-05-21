@@ -32,15 +32,50 @@ const getFileFromRequest = (req) => new Promise((resolve, reject) => {
   });
 });
 module.exports = function(Comment) {
-	Comment.beforeCreate = function (next, model) {
-    model.createdAt = Date.now();
-    next();
-  };
+	Comment.observe('after save', function(ctx, next) {
+    
+    //console.log(ctx.instance.user);
+    var c = {};
+    c.comment = ctx.instance;
+     Comment.app.models.user.findById(c.comment.userId, function(findErr, userData) {
+      if (findErr)
+        return null;
 
-  Comment.beforeUpdate = function (next, model) {
-    model.updatedAt = Date.now();
+      c.user = userData;
+      Comment.app.models.Answer.findById(c.comment.answerId, function(findErr, answerData) {
+        if (findErr)
+          return null;
+        c.answer = answerData;
+        Comment.app.models.Question.findById(c.answer.questionId, function(findErr, questionData) {
+          if (findErr)
+            return null;
+          c.question = questionData;
+          Comment.app.io.of('/notification').emit('newComment',c);
+          return questionData;
+        
+        });
+        
+        return userData;
+      
+      });
+
+        
+      return userData;
+     
+    });
+      
     next();
-  };
+  });
+
+  Comment.observe('before save', function(ctx, next) {
+    if (ctx.instance) {
+      ctx.instance.createdAt = new Date();
+    } else {
+      ctx.data.updatedAt = new Date();
+    }
+      
+    next();
+  });
   Comment.uploadFile= async(req, id, cb) =>{
     
     //return req.files;

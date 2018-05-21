@@ -1,0 +1,25 @@
+{
+  "name": "Participant",
+  "plural": "Participants",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "conversation": {
+      "type": "belongsTo",
+      "model": "Conversation",
+      "foreignKey": "conversationId"
+    },
+    "participant": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

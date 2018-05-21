@@ -1,13 +1,13 @@
 'use strict';
 
 module.exports = function(Attachment) {
-	Attachment.beforeCreate = function (next, model) {
-        model.createdAt = Date.now();
-        next();
-      };
-    
-    Attachment.beforeUpdate = function (next, model) {
-        model.updatedAt = Date.now();
-        next();
-      };
+	Attachment.observe('before save', function(ctx, next) {
+    if (ctx.instance) {
+      ctx.instance.createdAt = new Date();
+    } else {
+      ctx.data.updatedAt = new Date();
+    }
+      
+    next();
+  });
 };

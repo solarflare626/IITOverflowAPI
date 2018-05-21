@@ -32,6 +32,7 @@ module.exports = function(app) {
   var QuestionFollow=app.models.QuestionFollow;
   var QuestionTag=app.models.QuestionTag;
   var Notification=app.models.Notification;
+  var Participant = app.models.Participant;
   
   app.models.container.createContainer({"name":"profile"}, function(err, fileObj) {
             console.log("\nProfile container ok");
@@ -50,7 +51,7 @@ module.exports = function(app) {
 
   });
 
-  var lbTables = ['Attachment','Notification','user', 'Follow', 'Category', 'Tag','Question','CustomToken','Answer','Comment','AnswerDownvote','AnswerUpvote','Conversation','Expert','Interest','Message','QuestionDownvote','QuestionUpvote','QuestionFollow','QuestionTag'];
+  var lbTables = ['Participant','Attachment','Notification','user', 'Follow', 'Category', 'Tag','Question','CustomToken','Answer','Comment','AnswerDownvote','AnswerUpvote','Conversation','Expert','Interest','Message','QuestionDownvote','QuestionUpvote','QuestionFollow','QuestionTag'];
   mysqlDs.autoupdate(lbTables, function(er) {
     if (er) throw er;
     

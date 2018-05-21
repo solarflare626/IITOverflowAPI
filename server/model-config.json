@@ -124,5 +124,9 @@
   "Attachment": {
     "dataSource": "mysqlIDs",
     "public": true
+  },
+  "Participant": {
+    "dataSource": "mysqlIDs",
+    "public": true
   }
 }
