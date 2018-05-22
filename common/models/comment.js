@@ -49,8 +49,20 @@ module.exports = function(Comment) {
         Comment.app.models.Question.findById(c.answer.questionId, function(findErr, questionData) {
           if (findErr)
             return null;
+
           c.question = questionData;
-          Comment.app.io.of('/notification').emit('newComment',c);
+
+          Comment.app.models.Notification.create({type:"newComment",commentId:c.comment.id,answerId:c.comment.answerId,questionId:c.answer.questionId,userId:c.comment.userId},function(err,model){
+            if(err){
+                return next(err);
+            }
+           
+            Comment.app.io.of('/notification').emit('newComment',c);
+              
+              return model;
+              
+          });
+          
           return questionData;
         
         });

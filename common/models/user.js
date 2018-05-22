@@ -391,8 +391,8 @@ module.exports = function(User) {
 
         users.forEach(element => {
             element.id = "solo_"+element.id;
-            if(User.app.userSockets["user_" + element.userid]){
-                if(User.app.userSockets["user_" + element.userid].length != 0)
+            if(User.app.userSockets["user_" + element.userId]){
+                if(User.app.userSockets["user_" + element.userId].length != 0)
                     element.online = true;
                 else
                     element.online = false;
@@ -473,11 +473,28 @@ module.exports = function(User) {
              console.log(model);
              return cb(null,model);
          });
+      
+      }
+      
+        User.remoteMethod(
+          'sendMessage', {
+              http: {
+                  path: '/:id/conversation/:convoId',
+                  verb: 'post'
+              },
+                accepts: [{arg: 'msg', type: 'string'},
+              {arg: 'id', type: 'string'},{arg: 'convoId', type: 'string'}],
+              returns: {
+                  root : true,
+                  type: 'object'
+              }
+          }
+      );
 
-        
+      User.getNotifications= function(req, id, cb){
         
         // var q =  "SELECT (Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+"";
-         /*var q = "select message.*,u.picture, u.displayname from message join user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
+         var q = "select message.*,u.picture, u.displayname from message join user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
          User.dataSource.connector.query(q, [],  function (err, users) {
   
           if (err) {console.error(err);
@@ -496,22 +513,24 @@ module.exports = function(User) {
            });
           
   
-          });*/
+          });
       
       }
       
         User.remoteMethod(
-          'sendMessage', {
+          'getNotifications', {
               http: {
-                  path: '/:id/conversation/:convoId',
-                  verb: 'post'
+                  path: '/:id/notifications',
+                  verb: 'get'
               },
-                accepts: [{arg: 'msg', type: 'string'},
-              {arg: 'id', type: 'string'},{arg: 'convoId', type: 'string'}],
+                accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}},
+              {arg: 'id', type: 'string'}],
               returns: {
                   root : true,
-                  type: 'object'
+                  type: 'Array'
               }
           }
       );
+
+      
 };

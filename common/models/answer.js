@@ -48,7 +48,17 @@ module.exports = function(Answer) {
           if (findErr)
             return null;
           a.question = questionData;
-          Answer.app.io.of('/notification').emit('newAnswer',a);
+
+          Answer.app.models.Notification.create({type:"newAnswer",answerId:a.answer.id,questionId:a.answer.questionId,userId:a.answer.userId},function(err,model){
+            if(err){
+                return next(err);
+            }
+           
+              
+            Answer.app.io.of('/notification').emit('newAnswer',a);
+              return model;
+              
+          });
           return userData;
         
         });
