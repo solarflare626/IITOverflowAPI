@@ -320,6 +320,8 @@ module.exports = function(User) {
             if (findErr)
                 return cb(findErr);
 
+                console.log(userData);
+
 
 
             // Here you can do something with the user info, or the token, or both
@@ -334,7 +336,7 @@ module.exports = function(User) {
             
             
 
-             var q = "select public.user.displayname,public.user.id, public.user.picture from interest join public.user on interest.userId=public.user.id  where public.user.id!="+id+" and interest.categoryId in ("+interests+") group by public.user.id;";
+             var q = "select public.user.displayname,public.user.id, public.user.picture from interest join public.user on interest.userId=public.user.id  where public.user.id!="+id+" and interest.categoryId in ("+interests+") group by public.user.id order by public.user.displayname ASC;";
             // q = "SELECT table_schema || '.' || table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema');";
             // q = "Select * from public.user";
            
@@ -383,7 +385,7 @@ module.exports = function(User) {
 
     User.chatlist= function(req, id, cb){
         
-       var q =  "SELECT (Select updatedAt from conversation where conversation.id = me.conversationId) as last_activity,(Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+" order by last_activity DESC";
+       var q =  "SELECT (Select updatedAt from conversation where conversation.id = me.conversationId) as last_activity,(Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+" order by last_activity DESC";
     
        User.dataSource.connector.query(q, [],  function (err, users) {
 
@@ -424,7 +426,7 @@ module.exports = function(User) {
     User.getConvo= function(req, id,convoId, cb){
         
        // var q =  "SELECT (Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+"";
-        var q = "select message.*,u.picture, u.displayname from message join user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
+        var q = "select message.*,u.picture, u.displayname from message join public.user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
         User.dataSource.connector.query(q, [],  function (err, users) {
  
          if (err) {console.error(err);
@@ -494,7 +496,7 @@ module.exports = function(User) {
       User.getNotifications= function(req, id, cb){
         
         // var q =  "SELECT (Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+"";
-         var q = "select message.*,u.picture, u.displayname from message join user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
+         var q = "select message.*,u.picture, u.displayname from message join public.user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
          User.dataSource.connector.query(q, [],  function (err, users) {
   
           if (err) {console.error(err);
