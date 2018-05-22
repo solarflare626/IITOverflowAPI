@@ -87,7 +87,26 @@ module.exports = function(Question) {
             if (err) console.log("Error",err);
             console.log("deleted answers",info);
           });
-          
+          model.downvotes.destroyAll({}, function(err, info) {
+            if (err) console.log("Error",err);
+            console.log("deleted downvotes",info);
+          });
+          model.follows.destroyAll({}, function(err, info) {
+            if (err) console.log("Error",err);
+            console.log("deleted follows",info);
+          });
+          model.tags.destroyAll({}, function(err, info) {
+            if (err) console.log("Error",err);
+            console.log("deleted tags",info);
+          });
+          model.upvotes.destroyAll({}, function(err, info) {
+            if (err) console.log("Error",err);
+            console.log("deleted upvotes",info);
+          });
+          model.attachments.destroyAll({}, function(err, info) {
+            if (err) console.log("Error",err);
+            console.log("deleted attachments",info);
+          });
         });
         
         // loop through models and delete other things maybe?

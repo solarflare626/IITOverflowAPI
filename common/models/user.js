@@ -336,7 +336,7 @@ module.exports = function(User) {
             
             
 
-             var q = "select public.user.displayname,public.user.id, public.user.picture from interest join public.user on interest.userId=public.user.id  where public.user.id!="+id+" and interest.categoryId in ("+interests+") group by public.user.id order by public.user.displayname ASC;";
+             var q = "select public.user.displayname, public.user.email,public.user.id, public.user.picture from interest join public.user on interest.userId=public.user.id  where public.user.id!="+id+" and interest.categoryId in ("+interests+") group by public.user.id order by public.user.displayname ASC;";
             // q = "SELECT table_schema || '.' || table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema');";
             // q = "Select * from public.user";
            
