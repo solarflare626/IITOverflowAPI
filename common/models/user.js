@@ -334,8 +334,11 @@ module.exports = function(User) {
             
             
 
-             var q = "select user.displayname,user.id, user.picture from interest join user on interest.userId=user.id  where user.id!="+id+" and interest.categoryId in ("+interests+") group by user.id";
-             User.dataSource.connector.query(q, interests,  function (err, users) {
+             var q = "select public.user.displayname,public.user.id, public.user.picture from interest join public.user on interest.userId=public.user.id  where public.user.id!="+id+" and interest.categoryId in ("+interests+") group by public.user.id;";
+            // q = "SELECT table_schema || '.' || table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema');";
+            // q = "Select * from public.user";
+           
+             User.dataSource.connector.query(q, [],  function (err, users) {
 
                 if (err) console.error(err);
     
@@ -377,4 +380,138 @@ module.exports = function(User) {
             }
         }
     );
+
+    User.chatlist= function(req, id, cb){
+        
+       var q =  "SELECT (Select updatedAt from conversation where conversation.id = me.conversationId) as last_activity,(Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+" order by last_activity DESC";
+    
+       User.dataSource.connector.query(q, [],  function (err, users) {
+
+        if (err) console.error(err);
+
+        users.forEach(element => {
+            element.id = "solo_"+element.id;
+            if(User.app.userSockets["user_" + element.userid]){
+                if(User.app.userSockets["user_" + element.userid].length != 0)
+                    element.online = true;
+                else
+                    element.online = false;
+            }else{
+                element.online = false;
+            }
+        });
+        return cb(null,users);
+
+        });
+    
+    }
+    
+      User.remoteMethod(
+        'chatlist', {
+            http: {
+                path: '/:id/chatlist',
+                verb: 'get'
+            },
+              accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}},
+            {arg: 'id', type: 'string'}],
+            returns: {
+                root : true,
+                type: 'Array'
+            }
+        }
+    );
+
+    User.getConvo= function(req, id,convoId, cb){
+        
+       // var q =  "SELECT (Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+"";
+        var q = "select message.*,u.picture, u.displayname from message join user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
+        User.dataSource.connector.query(q, [],  function (err, users) {
+ 
+         if (err) {console.error(err);
+            cb(err);
+        }
+ 
+         User.app.models.Participant.upsertWithWhere({
+            'userId': id,
+            'conversationId': convoId
+          }, {
+            last_read: new Date()
+          }, function (err, obj) {
+    
+            return cb(null,users);
+           
+          });
+         
+ 
+         });
+     
+     }
+     
+       User.remoteMethod(
+         'getConvo', {
+             http: {
+                 path: '/:id/conversation/:convoId',
+                 verb: 'get'
+             },
+               accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}},
+             {arg: 'id', type: 'string'},{arg: 'convoId', type: 'string'}],
+             returns: {
+                 root : true,
+                 type: 'Array'
+             }
+         }
+     );
+
+     User.sendMessage= function(msg, id,convoId, cb){
+         console.log(msg);
+
+         User.app.models.Message.create({conversationId:convoId,senderId:id,message:msg},function(err,model){
+             if(err){
+                 return cb(err);
+             }
+            
+             console.log(model);
+             return cb(null,model);
+         });
+
+        
+        
+        // var q =  "SELECT (Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+"";
+         /*var q = "select message.*,u.picture, u.displayname from message join user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
+         User.dataSource.connector.query(q, [],  function (err, users) {
+  
+          if (err) {console.error(err);
+             cb(err);
+         }
+  
+          User.app.models.Participant.upsertWithWhere({
+             'userId': id,
+             'conversationId': convoId
+           }, {
+             last_read: new Date()
+           }, function (err, obj) {
+     
+             return cb(null,users);
+            
+           });
+          
+  
+          });*/
+      
+      }
+      
+        User.remoteMethod(
+          'sendMessage', {
+              http: {
+                  path: '/:id/conversation/:convoId',
+                  verb: 'post'
+              },
+                accepts: [{arg: 'msg', type: 'string'},
+              {arg: 'id', type: 'string'},{arg: 'convoId', type: 'string'}],
+              returns: {
+                  root : true,
+                  type: 'object'
+              }
+          }
+      );
 };

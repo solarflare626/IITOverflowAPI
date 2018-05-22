@@ -39,6 +39,7 @@ boot(app, __dirname, function (err) {
   if (require.main === module) {
     //app.start();
     app.io = require('socket.io')(app.start());
+    app.userSockets = userSockets;
     app.io.of('/chat').on('connection', function(socket){
         socket.on('connected', function (user) {
         console.log("user " + user.id + " has connected");

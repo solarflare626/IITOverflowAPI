@@ -6,7 +6,18 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": {
+    "created_at": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "last_read": {
+      "type": "date",
+      "required": false,
+      "defaultFn": "now"
+    }
+  },
   "validations": [],
   "relations": {
     "conversation": {

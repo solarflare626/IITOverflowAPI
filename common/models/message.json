@@ -6,9 +6,31 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "message": {
+      "type": "string",
+      "required": true
+    },
+    "created_at": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    }
+  },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "sender": {
+      "type": "belongsTo",
+      "model": "user"
+    },
+    "conversation": {
+      "type": "belongsTo",
+      "model": "Conversation"
+    }
+  },
   "acls": [],
   "methods": {}
 }
