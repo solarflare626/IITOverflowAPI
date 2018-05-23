@@ -389,20 +389,23 @@ module.exports = function(User) {
     
        User.dataSource.connector.query(q, [],  function (err, users) {
 
-        if (err) console.error(err);
-
-        users.forEach(element => {
-            element.id = "solo_"+element.id;
-            if(User.app.userSockets["user_" + element.userId]){
-                if(User.app.userSockets["user_" + element.userId].length != 0)
-                    element.online = true;
-                else
+        if (err){ console.error(err)
+            return cb(err);
+        }
+        else{
+            users.forEach(element => {
+                element.id = "solo_"+element.id;
+                if(User.app.userSockets["user_" + element.userId]){
+                    if(User.app.userSockets["user_" + element.userId].length != 0)
+                        element.online = true;
+                    else
+                        element.online = false;
+                }else{
                     element.online = false;
-            }else{
-                element.online = false;
-            }
-        });
+                }
+            });
         return cb(null,users);
+        }
 
         });
     
