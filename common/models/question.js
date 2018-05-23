@@ -76,6 +76,45 @@ module.exports = function(Question) {
       
     next();
   });
+  Question.observe('loaded', function(ctx, next) {
+    //console.log(ctx.results);
+    
+    if(ctx.data){
+      var questions = ctx.data;
+      if(Array.isArray(questions)) {
+        questions.forEach(question => {
+          Question.app.models.QuestionDownvote.count({questionId:question.id},function(err,count){
+            if(err)
+              console.log(err);
+            question.downvotesCount = count;
+            Question.app.models.QuestionUpvote.count({questionId:question.id},function(err,count){
+              question.upvotesCount = count;
+              next();
+            });
+
+          });
+          
+            
+        });
+      } else {
+        Question.app.models.QuestionDownvote.count({questionId:questions.id},function(err,count){
+          questions.downvotesCount = count;
+          Question.app.models.QuestionUpvote.count({questionId:questions.id},function(err,count){
+            questions.upvotesCount = count;
+            next();
+          });
+
+        });
+        
+      }
+    }
+    /*if(questions){
+      
+      
+    }*/
+    
+    
+  });
   Question.observe('before delete', function(ctx, next) {
     console.log('Going to delete %s matching %j',
       ctx.Model.pluralModelName,
