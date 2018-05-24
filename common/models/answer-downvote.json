@@ -22,7 +22,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "answer": {
+      "type": "belongsTo",
+      "model": "Answer",
+      "foreignKey": "answerId"
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

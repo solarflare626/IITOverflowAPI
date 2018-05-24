@@ -395,12 +395,16 @@ module.exports = function(User) {
         else{
             users.forEach(element => {
                 element.id = "solo_"+element.id;
-                if(User.app.userSockets["user_" + element.userId]){
-                    if(User.app.userSockets["user_" + element.userId].length != 0)
+                if(User.app.userSockets["user_" + element.userid]){
+                    if(User.app.userSockets["user_" + element.userid].length != 0){
+                        console.log("online")
                         element.online = true;
-                    else
+                     } else{
+                         console.log("offline 1");
                         element.online = false;
+                     }
                 }else{
+                    console.log("offline 2");
                     element.online = false;
                 }
             });
@@ -468,14 +472,14 @@ module.exports = function(User) {
      );
 
      User.sendMessage= function(msg, id,convoId, cb){
-         console.log(msg);
+        // console.log(msg);
 
          User.app.models.Message.create({conversationId:convoId,senderId:id,message:msg},function(err,model){
              if(err){
                  return cb(err);
              }
             
-             console.log(model);
+           //  console.log(model);
              return cb(null,model);
          });
       
@@ -530,6 +534,41 @@ module.exports = function(User) {
               },
                 accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}},
               {arg: 'id', type: 'string'}],
+              returns: {
+                  root : true,
+                  type: 'Array'
+              }
+          }
+      );
+
+      User.leaderboard= function(req, cb){
+        
+        // var q =  "SELECT (Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+"";
+         //var q = "select message.*,u.picture, u.displayname from message join public.user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
+        var q = "Select u.displayname, u.id, u.email,u.picture, (Select count(*) from answerupvote as ansu join answer as ans on(ansu.answerId=ans.id) where ans.userId=u.id) as points from public.user as u order by points DESC";
+         User.dataSource.connector.query(q, [],  function (err, users) {
+  
+          if (err) {console.error(err);
+             return cb(err);
+         }
+  
+         
+             return cb(null,users);
+            
+           
+          
+  
+          });
+      
+      }
+      
+        User.remoteMethod(
+          'leaderboard', {
+              http: {
+                  path: '/leaderboard',
+                  verb: 'get'
+              },
+                accepts: [{arg: 'req', type: 'object', 'http': {source: 'req'}}],
               returns: {
                   root : true,
                   type: 'Array'

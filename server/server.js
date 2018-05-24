@@ -31,7 +31,7 @@ app.start = function () {
 // Sub-apps like REST API are mounted via boot scripts.
 
 
-var userSockets = {};
+
 boot(app, __dirname, function (err) {
   if (err) throw err;
 
@@ -39,10 +39,12 @@ boot(app, __dirname, function (err) {
   if (require.main === module) {
     //app.start();
     app.io = require('socket.io')(app.start());
-    app.userSockets = userSockets;
+    app.userSockets = {};
+    var userSockets = app.userSockets;
     app.io.of('/chat').on('connection', function(socket){
         socket.on('connected', function (user) {
         console.log("user " + user.id + " has connected");
+
         socket.userId = user.id;
         if (userSockets["user_" + user.id]) {
           userSockets["user_" + user.id].push(socket);
@@ -50,6 +52,7 @@ boot(app, __dirname, function (err) {
           userSockets["user_" + user.id] = [];
           userSockets["user_" + user.id].push(socket);
         }
+        console.log( userSockets["user_" + user.id].length);
 
       });
 

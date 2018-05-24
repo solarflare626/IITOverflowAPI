@@ -70,6 +70,20 @@
       "through": "QuestionUpvote",
       "keyThrough": "questionId"
     },
+    "answersupvoted": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "userId",
+      "through": "AnswerUpvote",
+      "keyThrough": "answerId"
+    },
+    "answersdownvoted": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "userId",
+      "through": "AnswerDownvote",
+      "keyThrough": "answerId"
+    },
     "conversations": {
       "type": "hasMany",
       "model": "Conversation",
