@@ -36,15 +36,19 @@ module.exports = function (Message) {
               next();
             }else{
             var a = {};
-            a.user = JSON.parse(users);
+            a.user = users;
              console.log("userId",a.user);
-             Message.app.userSockets["user_" + a.user.userId].forEach(element => {
-               console.log("sending to ",a.user.userId);
-               Message.app.io.of('/chat').to(element.id).emit('message',q);
+             if(Message.app.userSockets["user_" + a.user.userId]){
                
-             
-             });
+              Message.app.userSockets["user_" + a.user.userId].forEach(element => {
+                console.log("sending to ",a.user.userId);
+                Message.app.io.of('/chat').to(element.id).emit('message',q);
+                
+              
+              });
             }
+            }
+            next();
             
           });
           /*Message.app.models.Participant.find({where:{conversationId:q.message.conversationId}},function (err, users) {

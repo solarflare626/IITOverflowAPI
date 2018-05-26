@@ -44,6 +44,8 @@ boot(app, __dirname, function (err) {
     app.io.of('/chat').on('connection', function(socket){
         socket.on('connected', function (user) {
         console.log("user " + user.id + " has connected");
+        
+        socket.broadcast.emit('wentOnline', {user : user.id});
 
         socket.userId = user.id;
         if (userSockets["user_" + user.id]) {
@@ -66,6 +68,11 @@ boot(app, __dirname, function (err) {
           var index = userSockets["user_" + socket.userId].indexOf(socket);
 
           userSockets["user_" + socket.userId].splice(index, 1);
+
+          if( userSockets["user_" + socket.userId].length == 0){
+            console.log("Offline: ",socket.userId );
+            socket.broadcast.emit('wentOffline', {user : socket.userId});
+          }
 
 
         }

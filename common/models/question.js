@@ -11,6 +11,30 @@ var minioClient = new Minio.Client({
 });
 
 var hash = require('object-hash');
+function getDate (date) {
+
+  var date2 = new Date().getTime() - new Date(date).getTime();
+
+  var seconds = Math.floor(date2 / 1000);
+
+  if (Math.floor(seconds / 3600) >= 24)
+      return new Date(date).toUTCString();
+
+  if (Math.floor(seconds / 3600))
+      return "" + Math.floor(seconds / 3600) + " hours ago";
+
+  if (Math.floor(seconds / 60))
+      return "" + Math.floor(seconds / 60) + " minutes ago";
+
+  if (Math.floor(seconds / 1))
+      return "" + Math.floor(seconds / 1) + " seconds ago";
+
+  return "Just now";
+  return new Date(date).toUTCString();
+
+
+
+}
 
 
 /**
@@ -83,12 +107,15 @@ module.exports = function(Question) {
       var questions = ctx.data;
       if(Array.isArray(questions)) {
         questions.forEach(question => {
+          
           Question.app.models.QuestionDownvote.count({questionId:question.id},function(err,count){
             if(err)
               console.log(err);
             question.downvotesCount = count;
             Question.app.models.QuestionUpvote.count({questionId:question.id},function(err,count){
               question.upvotesCount = count;
+              console.log(question.createdAt);
+              question.createdAt = getDate(question.createdAt);
               next();
             });
 
@@ -101,6 +128,8 @@ module.exports = function(Question) {
           questions.downvotesCount = count;
           Question.app.models.QuestionUpvote.count({questionId:questions.id},function(err,count){
             questions.upvotesCount = count;
+            console.log(questions.createdAt);
+              questions.createdAt = getDate(questions.createdAt);
             next();
           });
 
