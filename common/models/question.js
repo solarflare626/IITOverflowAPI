@@ -116,6 +116,7 @@ module.exports = function(Question) {
               question.upvotesCount = count;
               console.log(question.createdAt);
               question.createdAt = getDate(question.createdAt);
+              question.updatedAt = getDate(question.updatedAt);
               next();
             });
 
