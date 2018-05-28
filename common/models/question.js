@@ -18,7 +18,7 @@ function getDate (date) {
   var seconds = Math.floor(date2 / 1000);
 
   if (Math.floor(seconds / 3600) >= 24)
-      return new Date(date).toUTCString();
+      return (new Date(date)).toGMTString();
 
   if (Math.floor(seconds / 3600))
       return "" + Math.floor(seconds / 3600) + " hours ago";
@@ -114,7 +114,6 @@ module.exports = function(Question) {
             question.downvotesCount = count;
             Question.app.models.QuestionUpvote.count({questionId:question.id},function(err,count){
               question.upvotesCount = count;
-              console.log(question.createdAt);
               question.createdAt = getDate(question.createdAt);
               question.updatedAt = getDate(question.updatedAt);
               next();
@@ -129,8 +128,8 @@ module.exports = function(Question) {
           questions.downvotesCount = count;
           Question.app.models.QuestionUpvote.count({questionId:questions.id},function(err,count){
             questions.upvotesCount = count;
-            console.log(questions.createdAt);
               questions.createdAt = getDate(questions.createdAt);
+              questions.updatedAt = getDate(questions.updatedAt);
             next();
           });
 
