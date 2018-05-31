@@ -4,14 +4,15 @@
     "connector": "memory"
   },
   "mysqlIDs": {
-    "host": "localhost",
+    "host": "ec2-23-23-247-222.compute-1.amazonaws.com",
     "port": 5432,
+    "url": "postgres://yvccjmxnavlcst:47c64ca6c0dc17b7740ae2502b648cd71d074e5527f366da3ffd7ea7f1973bc7@ec2-23-23-247-222.compute-1.amazonaws.com:5432/d1h4v5i6utk7ql?ssl=true",
     "database": "d1h4v5i6utk7ql",
     "password": "47c64ca6c0dc17b7740ae2502b648cd71d074e5527f366da3ffd7ea7f1973bc7",
     "name": "mysqlIDs",
     "user": "yvccjmxnavlcst",
     "connector": "postgresql"
-  },
+},
   "storage": {
     "name": "storage",
     "connector": "loopback-component-storage",
