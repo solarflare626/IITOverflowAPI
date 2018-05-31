@@ -503,26 +503,60 @@ module.exports = function(User) {
       User.getNotifications= function(req, id, cb){
         
         // var q =  "SELECT (Select message from message where conversationId = me.conversationId order by created_at desc limit 1) as lastmessage,(Select CAST(count(*) AS INTEGER) from message as m where m.conversationId = me.conversationId and m.created_at > me.last_read and m.senderId != me.userId ) as unread,me.conversationId as id,other.userId,u.displayname, u.picture as profilePic FROM participant as me join participant as other on other.conversationId = me.conversationId  join public.user as u on u.id = other.userId where me.userId = "+id+" and other.userId != "+id+"";
-         var q = "select message.*,u.picture, u.displayname from message join public.user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
-         User.dataSource.connector.query(q, [],  function (err, users) {
+         //var q = "select message.*,u.picture, u.displayname from message join public.user as u on u.id = senderId where conversationId="+convoId+" order by message.created_at ASC";
+         User.findById(id,{include:[{relation: "following"},{relation:"interests"},{relation:"questionsfollowed"}]},function(err,me){
+            var followed_users = [];
+            var followed_questions = [];
+            var interests = [];
+            me = me.toJSON();
+
+            if(Array.isArray(me.following)) {
+
+                me.following.forEach(element => {
+                    followed_users.push(element.id);
+                });
+                
+
+            }
+            if(Array.isArray(me.interests)) {
+                me.interests.forEach(element => {
+                    interests.push(element.id);
+                });
+
+            }
+            if(Array.isArray(me.questionsfollowed)) {
+                me.questionsfollowed.forEach(element => {
+                    followed_questions.push(element.id);
+                });
+
+            }
+           //return cb(null,interests);
+       // var q = "select notif.id from notification as notif full join answer on (answer.id = notif.answerId) full join comment on (comment.id = notif.commentId) full join question on (question.id = notif.questionId) where notif.userId != 9 and ( (notif.type = 'newQuestion' and (question.userId in (1,2) or question.categoryId in(11,29))) or (notif.type = 'newAnswer' and(question.userId = 9 or question.id in (28))) or (notif.type = 'newComment' and (answer.userId =9))) order by notif.createdAt DESC"
+        var q = "select notif.id from notification as notif full join answer on (answer.id = notif.answerId) full join comment on (comment.id = notif.commentId) full join question on (question.id = notif.questionId) where notif.userId != " +id+" and ";
+        q+= "( (notif.type = 'newQuestion' and (question.categoryId in("+interests.toString()+") " +(followed_users.length > 0 ?"or question.userId in ("+followed_users.toString()+")": "")+" )) or (notif.type = 'newAnswer' and(question.userId = "+id+" "+(followed_questions.length > 0 ? "or question.id in ("+followed_questions.toString()+")" : "")+ ")) or (notif.type = 'newComment' and (answer.userId ="+id+"))) order by notif.createdAt DESC";
+         
+         User.dataSource.connector.query(q, [],  function (err, temp_notifications) {
   
           if (err) {console.error(err);
              cb(err);
          }
-  
-          User.app.models.Participant.upsertWithWhere({
-             'userId': id,
-             'conversationId': convoId
-           }, {
-             last_read: new Date()
-           }, function (err, obj) {
-     
-             return cb(null,users);
             
-           });
+            var notifId = [];
+            if(Array.isArray(temp_notifications)) {
+                temp_notifications.forEach(element => {
+                    notifId.push(element.id);
+                });
+                User.app.models.Notification.find({where:{id:{inq:notifId}},include:[{relation:"user"},{relation:"answer"},{relation:"comment"},{relation:"question"}]},function(err,notifs){
+                    return cb(null,notifs);
+                });
+            
+            }
+            
+           
           
   
           });
+        });
       
       }
       

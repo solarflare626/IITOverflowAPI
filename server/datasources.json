@@ -12,7 +12,7 @@
     "name": "mysqlIDs",
     "user": "yvccjmxnavlcst",
     "connector": "postgresql"
-  },
+},
   "storage": {
     "name": "storage",
     "connector": "loopback-component-storage",
