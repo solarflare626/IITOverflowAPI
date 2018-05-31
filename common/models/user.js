@@ -546,7 +546,7 @@ module.exports = function(User) {
                 temp_notifications.forEach(element => {
                     notifId.push(element.id);
                 });
-                User.app.models.Notification.find({where:{id:{inq:notifId}},include:[{relation:"user"},{relation:"answer"},{relation:"comment"},{relation:"question"}]},function(err,notifs){
+                User.app.models.Notification.find({order: 'createdAt DESC',where:{id:{inq:notifId}},include:[{relation:"user"},{relation:"answer"},{relation:"comment"},{relation:"question"}]},function(err,notifs){
                     return cb(null,notifs);
                 });
             
