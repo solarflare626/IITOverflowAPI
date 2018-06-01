@@ -89,6 +89,11 @@ module.exports = function(Answer) {
           model.comments.destroyAll({}, function(err, info) {
             if (err) console.log("Error",err);
             console.log("Deleted comments",info);
+              Answer.app.models.Notification.destroyAll({answerId: model.id},function(err, deleted) {
+                if (err) console.log("Error",err);
+                console.log("Deleted Answer notifications",deleted);
+
+              });
           });
           
         });

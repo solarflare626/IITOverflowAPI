@@ -88,6 +88,26 @@ module.exports = function(Comment) {
       
     next();
   });
+  Comment.observe('before delete', function(ctx, next) {
+    console.log('Going to delete %s matching %j',
+      ctx.Model.pluralModelName,
+      ctx.where);
+      Comment.find({ where:ctx.where }, function(err, models) {
+        console.log('found some answers:', models);
+        models.forEach(model => {
+
+          Comment.app.models.Notification.destroyAll({commentId: model.id},function(err, deleted) {
+            if (err) console.log("Error",err);
+            console.log("Deleted Comment notifications",deleted);
+
+          });
+          
+        });
+        
+        // loop through models and delete other things maybe?
+      });
+    next();
+  });
   Comment.uploadFile= async(req, id, cb) =>{
     
     //return req.files;

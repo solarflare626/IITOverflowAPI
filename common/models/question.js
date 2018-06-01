@@ -175,6 +175,11 @@ module.exports = function(Question) {
             if (err) console.log("Error",err);
             console.log("deleted attachments",info);
           });
+          Question.app.models.Notification.destroyAll({questionId: model.id},function(err, deleted) {
+            if (err) console.log("Error",err);
+            console.log("Deleted Question notifications",deleted);
+
+          });
         });
         
         // loop through models and delete other things maybe?
