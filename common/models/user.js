@@ -305,9 +305,9 @@ module.exports = function (User) {
     User.followable = function (ctx, id, cb) {
         User
             .findById(id, {
-                include: {
+                include: [{
                     relation: 'interests'
-                }
+                },{relation:'following'}]
             }, function (findErr, userData) {
                 if (findErr) 
                     return cb(findErr);
@@ -318,17 +318,26 @@ module.exports = function (User) {
                 // the access token
 
                 var interests = [];
+                var following = [];
 
-                userData
-                    .toJSON()
-                    .interests
+                var hold = userData.toJSON();
+                    hold.interests
                     .forEach(element => {
                         interests.push(element.id);
                     });
+                hold.following
+                    .forEach(element => {
+                        following.push(element.id);
+                    });
 
+
+                var followingquery = "";
+                if(following.length!= 0){
+                    followingquery = " and public.user.id not in ("+following+") ";
+                }
                 var q = "select public.user.displayname, public.user.email,public.user.id, public.user.pi" +
                         "cture from interest join public.user on interest.userId=public.user.id  where pu" +
-                        "blic.user.id!=" + id + " and interest.categoryId in (" + interests + ") group by public.user.id order by public.user.displayname ASC;";
+                        "blic.user.id!=" + id + " and interest.categoryId in (" + interests + ") "+followingquery+" group by public.user.id order by public.user.displayname ASC;";
                 // q = "SELECT table_schema || '.' || table_name FROM information_schema.tables
                 // WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog',
                 // 'information_schema');"; q = "Select * from public.user";
