@@ -63,7 +63,7 @@ module.exports = function(Question) {
 
   Question.observe('after save', function(ctx, next) {
     var q = {};
-    q.question = ctx.instance;
+    q.question = ctx.instance.toJSON();
      Question.app.models.user.findById(q.question.userId, function(findErr, userData) {
       if (findErr)
         return null;
@@ -77,15 +77,18 @@ module.exports = function(Question) {
       
       
       if(ctx.isNewInstance){
-        Question.findById(ctx.instance.id,{include: ["tags","category"]},function(err,data){
+        
+        Question.findById(ctx.instance.id,{include: [{relation:"tags"},{relation:"category"}]},function(err,data){
           if(err)
-            next(err);
+          console.log(err);
           else{
+            console.log(data);
+            data = data.toJSON();
             q.question.tags = data.tags;
             q.question.category = data.category;
             Question.app.models.Notification.create({type:"newQuestion",questionId:q.question.id,userId:q.question.userId},function(err,model){
               if(err){
-                  return next(err);
+                  console.log("err",err);
               }
     
               
@@ -93,6 +96,7 @@ module.exports = function(Question) {
                 q.user = userData;
                 Question.app.io.of('/notification').emit('newQuestion',q);
                 return model;
+                next();
                 
             });
           }
