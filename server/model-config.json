@@ -128,5 +128,9 @@
   "Participant": {
     "dataSource": "mysqlIDs",
     "public": true
+  },
+  "Report": {
+    "dataSource": "mysqlIDs",
+    "public": true
   }
 }

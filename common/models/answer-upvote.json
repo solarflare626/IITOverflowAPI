@@ -23,7 +23,6 @@
   },
   "validations": [],
   "relations": {
-
     "answer": {
       "type": "belongsTo",
       "model": "Answer",

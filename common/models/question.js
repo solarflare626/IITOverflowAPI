@@ -74,16 +74,31 @@ module.exports = function(Question) {
       //console.log(userData);
       // Return the access token
       
-      Question.app.models.Notification.create({type:"newQuestion",questionId:q.question.id,userId:q.question.userId},function(err,model){
-        if(err){
-            return next(err);
-        }
-       
-          q.user = userData;
-          Question.app.io.of('/notification').emit('newQuestion',q);
-          return model;
-          
-      });
+      
+      
+      if(ctx.isNewInstance){
+        Question.findById(ctx.instance.id,{include: ["tags","category"]},function(err,data){
+          if(err)
+            next(err);
+          else{
+            q.question.tags = data.tags;
+            q.question.category = data.category;
+            Question.app.models.Notification.create({type:"newQuestion",questionId:q.question.id,userId:q.question.userId},function(err,model){
+              if(err){
+                  return next(err);
+              }
+    
+              
+    
+                q.user = userData;
+                Question.app.io.of('/notification').emit('newQuestion',q);
+                return model;
+                
+            });
+          }
+        });
+        
+    }
     return userData;
      
     });
@@ -114,8 +129,8 @@ module.exports = function(Question) {
             question.downvotesCount = count;
             Question.app.models.QuestionUpvote.count({questionId:question.id},function(err,count){
               question.upvotesCount = count;
-              question.createdAt = getDate(question.createdAt);
-              question.updatedAt = getDate(question.updatedAt);
+              //question.createdAt = getDate(question.createdAt);
+              //question.updatedAt = getDate(question.updatedAt);
               next();
             });
 
@@ -128,8 +143,10 @@ module.exports = function(Question) {
           questions.downvotesCount = count;
           Question.app.models.QuestionUpvote.count({questionId:questions.id},function(err,count){
             questions.upvotesCount = count;
-              questions.createdAt = getDate(questions.createdAt);
-              questions.updatedAt = getDate(questions.updatedAt);
+              //questions.createdAt = getDate(questions.createdAt);
+              //questions.updatedAt = getDate(questions.updatedAt);
+
+              
             next();
           });
 
