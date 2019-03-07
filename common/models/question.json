@@ -1,0 +1,93 @@
+{
+  "name": "Question",
+  "plural": "Questions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "Counts": true
+  },
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "question": {
+      "type": "text",
+      "required": true
+    },
+    "questiondesc": {
+      "type": "text",
+      "required": false
+    },
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "deletedAt": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": ""
+    },
+    "category": {
+      "type": "belongsTo",
+      "model": "Category"
+    },
+    "upvotes": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "questionId",
+      "through": "QuestionUpvote",
+      "keyThrough": "userId"
+    },
+    "downvotes": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "questionId",
+      "through": "QuestionDownvote",
+      "keyThrough": "userId"
+    },
+    "follows": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "questionId",
+      "through": "QuestionFollow",
+      "keyThrough": "userId"
+    },
+    "tags": {
+      "type": "hasMany",
+      "model": "Tag",
+      "foreignKey": "questionId",
+      "through": "QuestionTag",
+      "keyThrough": "tagId"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "questionId"
+    },
+    "attachments": {
+      "type": "hasMany",
+      "model": "Attachment",
+      "polymorphic":{
+        "foreignKey": "fileId",
+        "discriminator": "fileType"
+       } 
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

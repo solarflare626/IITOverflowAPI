@@ -1,0 +1,37 @@
+{
+  "name": "Attachment",
+  "plural": "Attachments",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "url":{
+      "type": "string",
+      "required": false
+    },
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "deletedAt": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "file": {
+      "type": "belongsTo",
+      "polymorphic": true
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

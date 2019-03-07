@@ -1,0 +1,39 @@
+{
+  "name": "QuestionFollow",
+  "plural": "QuestionFollows",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "deletedAt": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "question": {
+      "type": "belongsTo",
+      "model": "Question",
+      "foreignKey": "questionId"
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

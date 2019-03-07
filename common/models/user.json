@@ -1,0 +1,189 @@
+{
+  "name": "user",
+  "plural": "users",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "Counts": true
+  },
+  "excludeBaseProperties": [
+    "username",
+    "realm",
+    "emailVerified",
+    "verificationToken"
+  ],
+  "properties": {
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "displayname": {
+      "type": "string",
+      "required": false
+    },
+    "picture": {
+      "type": "string",
+      "required": false
+    },
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "deletedAt": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "following": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "followerId",
+      "through": "Follow",
+      "keyThrough": "followeeId"
+    },
+    "followers": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "followeeId",
+      "through": "Follow",
+      "keyThrough": "followerId"
+    },
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId"
+    },
+    "questionsupvoted": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId",
+      "through": "QuestionUpvote",
+      "keyThrough": "questionId"
+    },
+    "questionsfollowed": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId",
+      "through": "QuestionFollow",
+      "keyThrough": "questionId"
+    },
+    "questionsdownvoted": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "userId",
+      "through": "QuestionDownvote",
+      "keyThrough": "questionId"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "userId"
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "userId"
+    },
+    "expertees": {
+      "type": "hasMany",
+      "model": "Tag",
+      "foreignKey": "userId",
+      "through": "Expert",
+      "keyThrough": "tagId"
+    },
+    "interests": {
+      "type": "hasMany",
+      "model": "Category",
+      "foreignKey": "userId",
+      "through": "Interest",
+      "keyThrough": "categoryId"
+    },
+    "accessTokens": {
+      "type": "hasMany",
+      "model": "CustomToken",
+      "foreignKey": "userId",
+      "options": {
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "addToLogin"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "updateProfile"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": ""
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__get__followers"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__count__followers"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "*"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "*"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

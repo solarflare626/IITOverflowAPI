@@ -1,0 +1,39 @@
+{
+  "name": "Follow",
+  "plural": "Follows",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "createdAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": true,
+      "defaultFn": "now"
+    },
+    "deletedAt": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "followee": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "followeeId"
+    },
+    "follower": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "followerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

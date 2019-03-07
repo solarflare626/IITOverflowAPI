@@ -1,0 +1,128 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../node_modules/loopback-counts-mixin",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "db",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "user": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Category": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Tag": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Follow": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Question": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Interest": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "CustomToken": {
+    "dataSource": "mysqlIDs",
+    "public": false
+  },
+  "Conversation": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Message": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Answer": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionUpvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionDownvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionFollow": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "AnswerUpvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "AnswerDownvote": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Comment": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Expert": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionTag": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "QuestionAttachment": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "Notification": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  },
+  "container": {
+    "dataSource": "storage",
+    "public": true
+  },
+  "Attachment": {
+    "dataSource": "mysqlIDs",
+    "public": true
+  }
+}
